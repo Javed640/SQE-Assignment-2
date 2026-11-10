@@ -22,3 +22,24 @@ python -c "from registration import Student, Course, register_course; print(regi
 6. Make any defect fixes in a separate Pull Request with accompanying regression tests.
 
 Some tests may fail against the supplied source. This is intentional for the exercise.
+
+## Member 1 — Black-box testing
+
+Test design is based on `REQUIREMENTS.md`, not the implementation. The original `registration.py` must remain unchanged during initial testing.
+
+- `tests/test_blackbox.py`: ECP, BVA, decision-table, state-transition, and no-mutation tests.
+- `docs/blackbox_test_design.xlsx`: requirements traceability and ECP/BVA cases.
+- `docs/decision_table.xlsx`: registration decision priority rules and test mapping.
+
+Run from the project root:
+
+```bash
+python -m pip install -r requirements.txt
+python -m pytest tests/test_blackbox.py -v
+```
+
+Some tests may fail because the starter implementation deliberately contains defects. Record actual results and create GitHub Issues with test IDs and reproduction steps. Do not change the expected results to make tests pass.
+
+### Recorded initial black-box execution
+
+The initial local run produced **37 passing and 12 failing tests** out of 49. See `docs/blackbox_execution_results.md`. Re-run on your own machine before reporting final results.

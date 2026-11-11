@@ -3,7 +3,7 @@
 The graph follows the short-circuit convention required by the brief: every
 atomic condition inside a compound ``if`` becomes its OWN decision node, so
 
-    if 0 <= course.enrolled <= course.capacity or course.capacity < 1:
+    if not 0 <= course.enrolled <= course.capacity or course.capacity < 1:
 
 is mapped as three chained decisions (D2a, D2b, D2c) rather than one.
 

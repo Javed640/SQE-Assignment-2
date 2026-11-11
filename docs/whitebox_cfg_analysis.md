@@ -165,23 +165,40 @@ relative to the set built so far.)
 
 ### 2.5 Edge coverage of the selected paths
 
-Adding up the edges each path uses:
+The table below walks the set in the order BP1 … BP10 and records, for each
+path, the edges of its route **and the edges it contributes that no earlier
+path in the set has used** ("new so far"). The running total is therefore
+verifiable line by line:
 
-| Path | Edges of its route | Running edge count once the set is complete |
-|---|---|---|
-| BP1 | 1, 2, 4 | 3 |
-| BP2 | 1, 3, 5, 11 | 5 new (3, 5, plus entry 1; 11 shared) |
-| BP3 | 1, 3, 6, 7, 11 | 2 new (6, 7) |
-| BP4 | 1, 3, 6, 8, 9, 11 | 2 new (8, 9) |
-| BP5 | 1, 3, 6, 8, 10, 12, 14 | 2 new (10, 12; 14 reaches X) |
-| BP6 | 1, 3, 6, 8, 10, 13, 15, 17 | 3 new (13, 15, 17) |
-| BP7 | 1, 3, 6, 8, 10, 13, 16, 18, 20 | 3 new (16, 18, 20) |
-| BP8 | 1, 3, 6, 8, 10, 13, 16, 19, 21, 23 | 3 new (19, 21, 23) |
-| BP9 | 1, 3, 6, 8, 10, 13, 16, 19, 22, 24, 26 | **infeasible** (24, 26) |
-| BP10 | 1, 3, 6, 8, 10, 13, 16, 19, 22, 25, 27 | 3 new (22, 25, 27) |
+| Path | Edges of its route | New edges contributed | Running total |
+|---|---|---|---|
+| BP1 | 1, 2, 4 | 1, 2, 4 | 3 |
+| BP2 | 1, 3, 5, 11 | 3, 5, 11 | 6 |
+| BP3 | 1, 3, 6, 7, 11 | 6, 7 | 8 |
+| BP4 | 1, 3, 6, 8, 9, 11 | 8, 9 | 10 |
+| BP5 | 1, 3, 6, 8, 10, 12, 14 | 10, 12, 14 | 13 |
+| BP6 | 1, 3, 6, 8, 10, 13, 15, 17 | 13, 15, 17 | 16 |
+| BP7 | 1, 3, 6, 8, 10, 13, 16, 18, 20 | 16, 18, 20 | 19 |
+| BP8 | 1, 3, 6, 8, 10, 13, 16, 19, 21, 23 | 19, 21, 23 | 22 |
+| BP9 | 1, 3, 6, 8, 10, 13, 16, 19, 22, 24, 26 | — **not executed** | 22 |
+| BP10 | 1, 3, 6, 8, 10, 13, 16, 19, 22, 25, 27 | 22, 25, 27 | 25 |
 
-Total: **25 of 27 distinct edges are covered at least once** by the feasible
-paths; every node is reached at least once except `R5` (n17).
+Notes on the arithmetic:
+
+* Edge 1 (`E → D1`) appears in every route but is counted only once, at BP1.
+* Edges 6 (`D2a → D2b`), 8 (`D2b → D2c`) and 10 (`D2c → D3`) are the
+  *continue* edges of the short-circuit chain; they are first used by BP3, BP4
+  and BP5 respectively, which is why each of those paths contributes them.
+* Edge 22 (`D6 → D7`) is first covered by BP10 — BP8 reaches D6 and exits, so
+  it never walks into D7.
+* BP9's route would add 24 and 26, but since the path is infeasible it adds
+  nothing: it is not executed and is not counted in the 25.
+* Union check: {1,2,4} ∪ {3,5,11} ∪ {6,7} ∪ {8,9} ∪ {10,12,14} ∪ {13,15,17}
+  ∪ {16,18,20} ∪ {19,21,23} ∪ {22,25,27} has 25 members, and the only edges
+  of 1–27 missing from it are **24 (`D7 → R5`) and 26 (`R5 → X`)**.
+
+Total: **25 of 27 distinct edges are covered at least once** by the nine
+feasible paths; every node is reached at least once except `R5` (n17).
 
 The two uncovered edges — `D7 → R5` and `R5 → X` — are the two edges of the
 infeasible branch, so they are not merely "not tested"; they are *proven
@@ -208,8 +225,12 @@ defect, recorded separately from this graph.
 
 The consequence for the test suite: nine of the ten basis paths are executable,
 and `tests/test_whitebox.py::test_bp9_waitlist_branch_is_unreachable` documents
-the finding by asserting that the input which *would* drive D7 true (a full
-course) instead raises the ValueError from P2. All ten tests pass.
+the finding with the closest legal input, a full course (`enrolled == capacity`).
+That input reaches D7, which then takes its **false** edge `D7 → R6` and the
+function returns **`"REGISTERED"`** — never `R5`. BP9 (`D7 → R5 → X`) is
+therefore an independent path that is **never executed**; the test asserts the
+observed `"REGISTERED"` behaviour and the path itself remains documented as
+infeasible. All ten tests pass.
 
 ---
 
@@ -230,8 +251,8 @@ D3 requires a balance; D4–D6 need `registered_courses`, `completed_courses`/
 | BP6 | `E-…-D4-R2-X` | `dues = 0`, `registered = {CS201}`, same course | `"ALREADY_REGISTERED"` |
 | BP7 | `E-…-D5-R3-X` | `completed = {}`, `prerequisites = {MATH101}` | `"PREREQUISITES_MISSING"` |
 | BP8 | `E-…-D6-R4-X` | `credits = 16`, course 3 credits | `"CREDIT_LIMIT"` (16 + 3 > 18) |
-| BP9 | `E-…-D7-R5-X` | `enrolled = 31`, `capacity = 30` | raises (the branch is unreachable) |
-| BP10 | `E-…-D7-R6-X` | all valid, `enrolled = 0` | `"REGISTERED"` |
+| BP9 | `E-…-D7-R5-X` (infeasible) | `enrolled = 30`, `capacity = 30` (full course) | **not executed** — the run takes `D7 → R6` and returns `"REGISTERED"` (see test BP9) |
+| BP10 | `E-…-D7-R6-X` | all valid, `enrolled = 10` | `"REGISTERED"` |
 
 Note on BP8: `check_credit_limit(16, 3)` returns False on the supplied code
 (19 is not `< 18`) and would return False on a `<= 18` implementation too, so
@@ -256,7 +277,7 @@ tests/test_whitebox.py::test_bp8_credit_limit PASSED
 tests/test_whitebox.py::test_bp9_waitlist_branch_is_unreachable PASSED
 tests/test_whitebox.py::test_bp10_registered PASSED
 
-=========== 10 passed in 0.09s ===========
+=========== 10 passed in 0.06s ===========
 ```
 
 ```
@@ -266,7 +287,7 @@ Name              Stmts   Miss Branch BrPart  Cover   Missing
 ---------------------------------------------------------------
 registration.py      57     16     26      3    70%   31, 33, 59, 65-72, 77-81
 TOTAL                57     16     26      3    70%
-=========== 10 passed in 0.19s ===========
+=========== 10 passed in 0.17s ===========
 ```
 
 Reading that number against the scope of this analysis:

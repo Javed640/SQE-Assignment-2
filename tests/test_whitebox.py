@@ -49,8 +49,9 @@ def test_bp1_dues_validation_raises():
 def test_bp2_enrolled_below_zero_raises():
     """BP2: enrolled = -1 makes C2 (0 <= enrolled) false, so D2a short-circuits.
 
-    Because C2 is false the 'or capacity < 1' atom is never evaluated, which is
-    exactly the short-circuit behaviour the graph models with the D2a -> P2 edge.
+    With C2 false, ``not (C2 and C3)`` is already True, so the first operand of
+    the ``or`` is true and the second atom ``capacity < 1`` (D2c) is never
+    evaluated - the run goes straight to P2 via the D2a -> P2 edge.
     """
     with pytest.raises(ValueError, match="Invalid capacity or enrollment"):
         registration_decision(student(), course(capacity=30, enrolled=-1))
@@ -129,14 +130,17 @@ def test_bp8_credit_limit():
 def test_bp9_waitlist_branch_is_unreachable():
     """BP9: the D7 -> R5 edge cannot be taken - documented, not hidden.
 
-    To reach D7 at all, BP2's guard chain must pass, and D2a and D2b together
-    assert 0 <= enrolled <= capacity. D7 then asks the negation
+    BP9 itself is an UNREACHABLE path and is never executed by this test: to
+    reach D7 at all, the line-48 guard chain must pass, and D2a and D2b
+    together assert 0 <= enrolled <= capacity. D7 then asks the negation
     (enrolled > capacity), which can therefore never be true, so R5 (line 59)
     is dead code.
 
-    The closest legal input, a full course (enrolled == capacity), is asserted
-    here: it reaches D7 and takes the *false* edge, i.e. the run never hits R5.
-    Saturation by 'more tests' is impossible - see analysis section 2.6.
+    What this test actually executes is the false edge D7 -> R6 (BP10's route)
+    with the closest legal input, a full course (enrolled == capacity): the
+    run returns "REGISTERED" and never hits R5. That assertion documents the
+    finding; the infeasible path BP9 stays out of the executed set - see
+    analysis section 2.6.
     """
     full_course = course(capacity=30, enrolled=30)
     assert registration_decision(student(), full_course) == "REGISTERED"

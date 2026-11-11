@@ -47,6 +47,7 @@ python -m pytest tests/ --cov=registration --cov-branch --cov-report=term-missin
 | Lines 48-49 | Invalid capacity / enrollment raises `ValueError` | WBC-03, WBC-04, WBC-05 |
 | Line 31 | Invalid `current_credits` in `check_credit_limit` | WBC-13 |
 | Line 33 | Invalid `new_credits` in `check_credit_limit` | WBC-14 |
+| Line 78 | `withdraw_course` returns `False` when the course is not registered (FR-14) | WBC-16 |
 
 ### 3.2 Unreachable code (implementation defect)
 
@@ -56,7 +57,7 @@ Line 59 (`return "WAITLISTED"`) and lines 70-71 of `register_course` (waitlist a
 - Line 48 already raises `ValueError` whenever `enrolled > capacity`, so line 58 can never evaluate to True.
 - SRS FR-08 requires `WAITLISTED` when `enrolled == capacity`, so the condition should be `>=`.
 
-As a result, 100% statement and branch coverage is not achievable on the supplied code. Tests WBC-10 and WBC-11 encode the SRS-correct behaviour and fail against the current implementation; they are retained as defect evidence and their expected values must not be altered.
+As a result, 100% statement and branch coverage is not achievable on the supplied code. Tests WBC-10 and WBC-11a to WBC-11d encode the SRS-correct behaviour and fail against the current implementation; they are retained as defect evidence and their expected values must not be altered.
 
 ## 4. Atomic Conditions
 
@@ -104,11 +105,15 @@ NE = not evaluated because of short-circuiting.
 
 ### 5.3 Independence pairs
 
-| Condition | Test pair | Justification |
-|---|---|---|
-| c1 | T1, T2 | c1 changes T to F, the outcome changes F to T; c2 is masked, c3 remains False. |
-| c2 | T1, T3 | c2 changes T to F with c1 = T and c3 = F held constant; the outcome changes F to T. |
-| c3 | T1, T4 | c3 changes F to T with c1 = T and c2 = T held constant; the outcome changes F to T. |
+A condition has an *independent effect* when two tests (a) differ in that condition, (b) give different decision outcomes, and (c) every other condition either keeps the same value or is not evaluated by Python (masked by short-circuiting), so it cannot be the cause of the change.
+
+| Condition | Test pair | c1 | c2 | c3 | D | Justification |
+|---|---|---|---|---|---|---|
+| c1 | T1 vs T2 | T to F | T to NE | F to NE | F to T | Only c1 changes. Once c1 is False, `c1 and c2` is False and D is True regardless of c2 and c3, so Python skips both. The outcome change is therefore caused by c1. |
+| c2 | T1 vs T3 | T (same) | T to F | F to NE | F to T | c1 is True in both, so c2 is evaluated and decides `c1 and c2`. c3 is skipped in T3 because D is already True. The outcome change is caused by c2. |
+| c3 | T1 vs T4 | T (same) | T (same) | F to T | F to T | c1 and c2 are True and identical in both tests; only c3 differs, and D changes. This is the only pair where all other conditions are evaluated and equal. |
+
+NE means "not evaluated". For T2 and T3 the skipped conditions still have logical values (c2 = True and c3 = False in T2; c3 = False in T3), which are identical to those in T1. This is why the pairs remain valid even if the NE entries are read as their logical values.
 
 For three atomic conditions the minimum MC/DC set is n + 1 = 4 tests, which is exactly the set above. **MC/DC = 3 / 3 conditions = 100% for the decision on line 48.**
 
@@ -130,8 +135,12 @@ For three atomic conditions the minimum MC/DC set is n + 1 = 4 tests, which is e
 | WBC-08 | Line 54 True: prerequisites missing | FR-06 | Pass |
 | WBC-09 | Line 56 True: credit limit | FR-07 | Pass |
 | WBC-10 | Line 58/59: full course is waitlisted | FR-08 | **Fail** (defect) |
-| WBC-11 | Lines 70-71: waitlist append only once | FR-12 | **Fail** (defect) |
+| WBC-11a | Line 70: `register_course` on a full course returns `WAITLISTED` | FR-12 | **Fail** (defect) |
+| WBC-11b | Line 71: student ID is appended to the waitlist | FR-12 | **Fail** (defect) |
+| WBC-11c | Line 70: no duplicate entry when the ID is already waitlisted | FR-12 | **Fail** (defect) |
+| WBC-11d | Waitlisting leaves credits, registered courses and `enrolled` unchanged | FR-12 | **Fail** (defect) |
 | WBC-12 | `withdraw_course` decrements `enrolled` | FR-13 | **Fail** (defect) |
+| WBC-16 | Line 78: withdrawing a course that is not registered returns `False`, no state change | FR-14 | Pass |
 | WBC-13 | Line 31: invalid current credits | FR-02 | Pass |
 | WBC-14 | Line 33: invalid course credits | FR-02 | Pass |
 | WBC-15 | Total of exactly 18 credits is allowed | FR-01 | **Fail** (defect) |
@@ -140,7 +149,7 @@ For three atomic conditions the minimum MC/DC set is n + 1 = 4 tests, which is e
 
 | Failing test | Requirement | Location | Observed behaviour | Expected behaviour |
 |---|---|---|---|---|
-| WBC-10, WBC-11 | FR-08, FR-12 | Line 58 | `enrolled > capacity` is never True; `WAITLISTED` unreachable | `enrolled >= capacity` returns `WAITLISTED` |
+| WBC-10, WBC-11a to 11d | FR-08, FR-12 | Line 58 | `enrolled > capacity` is never True; `WAITLISTED` unreachable | `enrolled >= capacity` returns `WAITLISTED` |
 | WBC-12 | FR-13 | `withdraw_course` | `course.enrolled` is not decremented | `enrolled` decreases by one |
 | WBC-15 | FR-01 | Line 34 | `current + new < 18` rejects a total of 18 | `current + new <= 18` |
 
@@ -155,3 +164,6 @@ Paste the final `pytest-cov` terminal output here, followed by the pass/fail sum
 ```
 
 **Conclusion.** The added tests achieve 100% MC/DC on the selected decision and close all reachable statement and branch gaps. The remaining uncovered code (line 59, lines 70-71) is unreachable due to the defect described in Section 3.2.
+
+### Note on test independence (WBC-11)
+Each waitlist check is a separate test (WBC-11a to WBC-11d), so a failure in one assertion does not hide the others. All four currently fail for the same root cause: line 58 never returns `WAITLISTED` (Section 3.2), so `register_course` returns `REGISTERED` for a full course.

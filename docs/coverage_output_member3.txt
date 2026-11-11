@@ -1,0 +1,63 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.4, pytest-9.2.0, pluggy-1.7.0
+rootdir: /home/malikmudassariqbalawan/SQE-Assignment-2
+plugins: cov-7.1.0
+collected 15 items
+
+tests/test_whitebox_coverage.py .........FFF..F                          [100%]
+
+=================================== FAILURES ===================================
+___________________ test_wbc_10_full_course_should_waitlist ____________________
+
+    def test_wbc_10_full_course_should_waitlist():     # line 58/59 (SRS FR-08)
+>       assert registration_decision(mk(), course(enrolled=5, cap=5)) == "WAITLISTED"
+E       AssertionError: assert 'REGISTERED' == 'WAITLISTED'
+E         
+E         - WAITLISTED
+E         + REGISTERED
+
+tests/test_whitebox_coverage.py:64: AssertionError
+__________________ test_wbc_11_register_waitlist_adds_id_once __________________
+
+    def test_wbc_11_register_waitlist_adds_id_once():  # lines 70-71 (FR-12)
+        s, c = mk(), course(enrolled=5, cap=5)
+>       assert register_course(s, c) == "WAITLISTED"
+E       AssertionError: assert 'REGISTERED' == 'WAITLISTED'
+E         
+E         - WAITLISTED
+E         + REGISTERED
+
+tests/test_whitebox_coverage.py:70: AssertionError
+___________________ test_wbc_12_withdraw_decrements_enrolled ___________________
+
+    def test_wbc_12_withdraw_decrements_enrolled():    # FR-13
+        s, c = mk(credits=3, regd=["CS201"]), course(enrolled=1)
+        assert withdraw_course(s, c) is True
+>       assert s.current_credits == 0 and c.enrolled == 0
+E       AssertionError: assert (0 == 0 and 1 == 0)
+E        +  where 0 = Student(student_id='S001', completed_courses=set(), current_credits=0, outstanding_dues=0, registered_courses=set()).current_credits
+E        +  and   1 = Course(code='CS201', credit_hours=3, capacity=5, enrolled=1, prerequisites=set(), waitlist=[]).enrolled
+
+tests/test_whitebox_coverage.py:78: AssertionError
+_____________________ test_wbc_15_total_exactly_18_allowed _____________________
+
+    def test_wbc_15_total_exactly_18_allowed():        # FR-01 (exposes '< 18' defect)
+>       assert check_credit_limit(15, 3) is True
+E       assert False is True
+E        +  where False = check_credit_limit(15, 3)
+
+tests/test_whitebox_coverage.py:96: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.14.4-final-0 ________________
+
+Name              Stmts   Miss Branch BrPart  Cover   Missing
+-------------------------------------------------------------
+registration.py      53      4     26      3    89%   59, 70-71, 78
+-------------------------------------------------------------
+TOTAL                53      4     26      3    89%
+=========================== short test summary info ============================
+FAILED tests/test_whitebox_coverage.py::test_wbc_10_full_course_should_waitlist
+FAILED tests/test_whitebox_coverage.py::test_wbc_11_register_waitlist_adds_id_once
+FAILED tests/test_whitebox_coverage.py::test_wbc_12_withdraw_decrements_enrolled
+FAILED tests/test_whitebox_coverage.py::test_wbc_15_total_exactly_18_allowed
+========================= 4 failed, 11 passed in 0.05s =========================

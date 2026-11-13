@@ -26,11 +26,11 @@ python -m pytest tests/ --cov=registration --cov-branch --cov-report=term-missin
 
 | Stage | Test suites executed | Statement coverage | Branch coverage | Uncovered lines |
 |---|---|---|---|---|
-| Initial | `test_blackbox.py` (Member 1) | `__ %` | `__ %` | `__` |
-| Intermediate | + `test_whitebox.py` (Member 2) | `__ %` | `__ %` | `__` |
-| Final | + `test_whitebox_coverage.py` (Member 3) | `__ %` | `__ %` | `__` |
+| Initial | `test_blackbox.py` (Member 1) | 94.3 % (50/53) | 84.6 % (22/26) | 59, 70, 71 |
+| Intermediate | + `test_whitebox.py` (Member 2) | 94.3 % (50/53) | 84.6 % (22/26) | 59, 70, 71 |
+| Final | + `test_whitebox_coverage.py` (Member 3) | 96.2 % (51/53) | 92.3 % (24/26) | 59, 71 |
 
-> Replace the `__` placeholders with the values printed by `pytest-cov` on your machine.
+> Values were measured with `pytest-cov` (Python 3.14). The Initial and Intermediate stages are equal because the tests in `test_whitebox.py` exercise paths already covered by the black-box suite. The gain in the Final stage comes from WBC-17, which covers line 70 and branches 66->70 and 70->72 (a rejected decision such as DUES_BLOCK in `register_course`). The two remaining uncovered lines (59 and 71) are unreachable (Section 3.2).
 
 **Definitions**
 
@@ -47,17 +47,18 @@ python -m pytest tests/ --cov=registration --cov-branch --cov-report=term-missin
 | Lines 48-49 | Invalid capacity / enrollment raises `ValueError` | WBC-03, WBC-04, WBC-05 |
 | Line 31 | Invalid `current_credits` in `check_credit_limit` | WBC-13 |
 | Line 33 | Invalid `new_credits` in `check_credit_limit` | WBC-14 |
-| Line 78 | `withdraw_course` returns `False` when the course is not registered (FR-14) | WBC-16 |
+| Line 78 | `withdraw_course` returns `False` when the course is not registered (FR-14); already executed by the black-box suite, now tested explicitly | WBC-16 |
+| Line 70, branches 66->70 and 70->72 | `register_course` with a rejected decision (DUES_BLOCK): the `elif` is evaluated and the waitlist branch is skipped | WBC-17 |
 
 ### 3.2 Unreachable code (implementation defect)
 
-Line 59 (`return "WAITLISTED"`) and lines 70-71 of `register_course` (waitlist append) **cannot be executed with any valid or invalid input**.
+Line 59 (`return "WAITLISTED"`) and line 71 of `register_course` (`course.waitlist.append(...)`) **cannot be executed with any valid or invalid input**. Line 70 (the `elif decision == "WAITLISTED" and ...` condition) is reachable: it is evaluated whenever the decision is not REGISTERED, for example DUES_BLOCK, and is covered by WBC-17. Only its body (line 71) is unreachable: it runs only when the decision is `WAITLISTED`, which requires line 59, which requires `course.enrolled > course.capacity`.
 
 - Line 58 tests `course.enrolled > course.capacity`.
 - Line 48 already raises `ValueError` whenever `enrolled > capacity`, so line 58 can never evaluate to True.
 - SRS FR-08 requires `WAITLISTED` when `enrolled == capacity`, so the condition should be `>=`.
 
-As a result, 100% statement and branch coverage is not achievable on the supplied code. Tests WBC-10 and WBC-11a to WBC-11d encode the SRS-correct behaviour and fail against the current implementation; they are retained as defect evidence and their expected values must not be altered.
+As a result, 100% statement and branch coverage is not achievable on the supplied code. WBC-18 demonstrates this: a course with `enrolled > capacity` raises `ValueError` at line 49 before the waitlist check at line 58. Tests WBC-10 and WBC-11a to WBC-11d encode the SRS-correct behaviour and fail against the current implementation; they are retained as defect evidence and their expected values must not be altered.
 
 ## 4. Atomic Conditions
 
@@ -157,13 +158,49 @@ Additional defects visible in the source and expected to be caught by the black-
 
 ## 8. Actual Results
 
-Paste the final `pytest-cov` terminal output here, followed by the pass/fail summary.
+Pytest results per test file and for the full suite:
+
+| Test file | Passed | Failed |
+|---|---|---|
+| `test_blackbox.py` | 37 | 12 |
+| `test_whitebox.py` | 10 | 0 |
+| `test_whitebox_coverage.py` | 15 | 7 |
+| Full suite (`tests/`) | 62 | 19 |
+
+All 19 failures expose defects in the original code (12 from the black-box suite and 7 from `test_whitebox_coverage.py`); their expected results are unchanged.
+
+Final `pytest-cov` output (all suites):
 
 ```
-<paste output>
+Name              Stmts   Miss Branch BrPart  Cover   Missing
+-------------------------------------------------------------
+registration.py      53      2     26      2    95%   59, 71
+-------------------------------------------------------------
+TOTAL                53      2     26      2    95%
+=========================== short test summary info ============================
+FAILED tests/test_blackbox.py::test_ecp_and_bva[ECP02] - AssertionError: ECP0...
+FAILED tests/test_blackbox.py::test_ecp_and_bva[ECP07] - AssertionError: ECP0...
+FAILED tests/test_blackbox.py::test_ecp_and_bva[ECP10] - AssertionError: ECP1...
+FAILED tests/test_blackbox.py::test_ecp_and_bva[BVA05] - AssertionError: BVA0...
+FAILED tests/test_blackbox.py::test_ecp_and_bva[BVA14] - AssertionError: BVA1...
+FAILED tests/test_blackbox.py::test_ecp_and_bva[BVA16] - AssertionError: BVA1...
+FAILED tests/test_blackbox.py::test_prerequisites[PR03_some] - AssertionError...
+FAILED tests/test_blackbox.py::test_decision_priority[DT01] - AssertionError:...
+FAILED tests/test_blackbox.py::test_decision_priority[DT05] - AssertionError:...
+FAILED tests/test_blackbox.py::test_register_waitlist_only_and_no_duplicate
+FAILED tests/test_blackbox.py::test_register_rejection_does_not_mutate - Asse...
+FAILED tests/test_blackbox.py::test_withdraw_success_decrements_enrollment - ...
+FAILED tests/test_whitebox_coverage.py::test_wbc_10_full_course_should_waitlist
+FAILED tests/test_whitebox_coverage.py::test_wbc_11a_register_full_course_returns_waitlisted
+FAILED tests/test_whitebox_coverage.py::test_wbc_11b_student_id_appended_to_waitlist
+FAILED tests/test_whitebox_coverage.py::test_wbc_11c_no_duplicate_waitlist_entry
+FAILED tests/test_whitebox_coverage.py::test_wbc_11d_waitlisting_leaves_other_state_unchanged
+FAILED tests/test_whitebox_coverage.py::test_wbc_12_withdraw_decrements_enrolled
+FAILED tests/test_whitebox_coverage.py::test_wbc_15_total_exactly_18_allowed
+19 failed, 62 passed in 0.13s
 ```
 
-**Conclusion.** The added tests achieve 100% MC/DC on the selected decision and close all reachable statement and branch gaps. The remaining uncovered code (line 59, lines 70-71) is unreachable due to the defect described in Section 3.2.
+**Conclusion.** The added tests achieve 100% MC/DC on the selected decision and close all reachable statement and branch gaps. The remaining uncovered code (lines 59 and 71) is unreachable due to the defect described in Section 3.2.
 
 ### Note on test independence (WBC-11)
 Each waitlist check is a separate test (WBC-11a to WBC-11d), so a failure in one assertion does not hide the others. All four currently fail for the same root cause: line 58 never returns `WAITLISTED` (Section 3.2), so `register_course` returns `REGISTERED` for a full course.

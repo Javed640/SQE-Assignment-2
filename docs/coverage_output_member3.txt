@@ -1,0 +1,476 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.4, pytest-9.2.0, pluggy-1.7.0 -- /home/malikmudassariqbalawan/SQE-Assignment-2/venv/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/malikmudassariqbalawan/SQE-Assignment-2
+plugins: cov-7.1.0
+collecting ... collected 82 items
+
+tests/test_blackbox.py::test_ecp_and_bva[ECP01] PASSED                   [  1%]
+tests/test_blackbox.py::test_ecp_and_bva[ECP02] FAILED                   [  2%]
+tests/test_blackbox.py::test_ecp_and_bva[ECP03] PASSED                   [  3%]
+tests/test_blackbox.py::test_ecp_and_bva[ECP04] PASSED                   [  4%]
+tests/test_blackbox.py::test_ecp_and_bva[ECP05] PASSED                   [  6%]
+tests/test_blackbox.py::test_ecp_and_bva[ECP06] PASSED                   [  7%]
+tests/test_blackbox.py::test_ecp_and_bva[ECP07] FAILED                   [  8%]
+tests/test_blackbox.py::test_ecp_and_bva[ECP08] PASSED                   [  9%]
+tests/test_blackbox.py::test_ecp_and_bva[ECP09] PASSED                   [ 10%]
+tests/test_blackbox.py::test_ecp_and_bva[ECP10] FAILED                   [ 12%]
+tests/test_blackbox.py::test_ecp_and_bva[ECP11] PASSED                   [ 13%]
+tests/test_blackbox.py::test_ecp_and_bva[ECP12] PASSED                   [ 14%]
+tests/test_blackbox.py::test_ecp_and_bva[ECP13] PASSED                   [ 15%]
+tests/test_blackbox.py::test_ecp_and_bva[ECP14] PASSED                   [ 17%]
+tests/test_blackbox.py::test_ecp_and_bva[BVA01] PASSED                   [ 18%]
+tests/test_blackbox.py::test_ecp_and_bva[BVA02] PASSED                   [ 19%]
+tests/test_blackbox.py::test_ecp_and_bva[BVA03] PASSED                   [ 20%]
+tests/test_blackbox.py::test_ecp_and_bva[BVA04] PASSED                   [ 21%]
+tests/test_blackbox.py::test_ecp_and_bva[BVA05] FAILED                   [ 23%]
+tests/test_blackbox.py::test_ecp_and_bva[BVA06] PASSED                   [ 24%]
+tests/test_blackbox.py::test_ecp_and_bva[BVA07] PASSED                   [ 25%]
+tests/test_blackbox.py::test_ecp_and_bva[BVA08] PASSED                   [ 26%]
+tests/test_blackbox.py::test_ecp_and_bva[BVA09] PASSED                   [ 28%]
+tests/test_blackbox.py::test_ecp_and_bva[BVA10] PASSED                   [ 29%]
+tests/test_blackbox.py::test_ecp_and_bva[BVA11] PASSED                   [ 30%]
+tests/test_blackbox.py::test_ecp_and_bva[BVA12] PASSED                   [ 31%]
+tests/test_blackbox.py::test_ecp_and_bva[BVA13] PASSED                   [ 32%]
+tests/test_blackbox.py::test_ecp_and_bva[BVA14] FAILED                   [ 34%]
+tests/test_blackbox.py::test_ecp_and_bva[BVA15] PASSED                   [ 35%]
+tests/test_blackbox.py::test_ecp_and_bva[BVA16] FAILED                   [ 36%]
+tests/test_blackbox.py::test_ecp_and_bva[BVA17] PASSED                   [ 37%]
+tests/test_blackbox.py::test_ecp_and_bva[BVA18] PASSED                   [ 39%]
+tests/test_blackbox.py::test_ecp_and_bva[BVA19] PASSED                   [ 40%]
+tests/test_blackbox.py::test_prerequisites[PR01_empty] PASSED            [ 41%]
+tests/test_blackbox.py::test_prerequisites[PR02_all] PASSED              [ 42%]
+tests/test_blackbox.py::test_prerequisites[PR03_some] FAILED             [ 43%]
+tests/test_blackbox.py::test_prerequisites[PR04_none] PASSED             [ 45%]
+tests/test_blackbox.py::test_decision_priority[DT01] FAILED              [ 46%]
+tests/test_blackbox.py::test_decision_priority[DT02] PASSED              [ 47%]
+tests/test_blackbox.py::test_decision_priority[DT03] PASSED              [ 48%]
+tests/test_blackbox.py::test_decision_priority[DT04] PASSED              [ 50%]
+tests/test_blackbox.py::test_decision_priority[DT05] FAILED              [ 51%]
+tests/test_blackbox.py::test_decision_priority[DT06] PASSED              [ 52%]
+tests/test_blackbox.py::test_register_success_updates_all_fields PASSED  [ 53%]
+tests/test_blackbox.py::test_register_waitlist_only_and_no_duplicate FAILED [ 54%]
+tests/test_blackbox.py::test_register_rejection_does_not_mutate FAILED   [ 56%]
+tests/test_blackbox.py::test_withdraw_success_decrements_enrollment FAILED [ 57%]
+tests/test_blackbox.py::test_withdraw_nonregistered_no_mutation PASSED   [ 58%]
+tests/test_blackbox.py::test_validation_dues_before_capacity PASSED      [ 59%]
+tests/test_whitebox.py::test_bp1_dues_validation_raises PASSED           [ 60%]
+tests/test_whitebox.py::test_bp2_enrolled_below_zero_raises PASSED       [ 62%]
+tests/test_whitebox.py::test_bp3_enrolled_above_capacity_raises PASSED   [ 63%]
+tests/test_whitebox.py::test_bp4_zero_capacity_raises PASSED             [ 64%]
+tests/test_whitebox.py::test_bp5_dues_block PASSED                       [ 65%]
+tests/test_whitebox.py::test_bp6_already_registered PASSED               [ 67%]
+tests/test_whitebox.py::test_bp7_prerequisites_missing PASSED            [ 68%]
+tests/test_whitebox.py::test_bp8_credit_limit PASSED                     [ 69%]
+tests/test_whitebox.py::test_bp9_waitlist_branch_is_unreachable PASSED   [ 70%]
+tests/test_whitebox.py::test_bp10_registered PASSED                      [ 71%]
+tests/test_whitebox_coverage.py::test_wbc_01_negative_dues_raises PASSED [ 73%]
+tests/test_whitebox_coverage.py::test_wbc_02_mcdc_T1_all_valid PASSED    [ 74%]
+tests/test_whitebox_coverage.py::test_wbc_03_mcdc_T2_enrolled_negative PASSED [ 75%]
+tests/test_whitebox_coverage.py::test_wbc_04_mcdc_T3_enrolled_above_capacity PASSED [ 76%]
+tests/test_whitebox_coverage.py::test_wbc_05_mcdc_T4_capacity_zero PASSED [ 78%]
+tests/test_whitebox_coverage.py::test_wbc_06_dues_block_true_branch PASSED [ 79%]
+tests/test_whitebox_coverage.py::test_wbc_07_already_registered_branch PASSED [ 80%]
+tests/test_whitebox_coverage.py::test_wbc_08_prereq_missing_branch PASSED [ 81%]
+tests/test_whitebox_coverage.py::test_wbc_09_credit_limit_branch PASSED  [ 82%]
+tests/test_whitebox_coverage.py::test_wbc_10_full_course_should_waitlist FAILED [ 84%]
+tests/test_whitebox_coverage.py::test_wbc_11a_register_full_course_returns_waitlisted FAILED [ 85%]
+tests/test_whitebox_coverage.py::test_wbc_11b_student_id_appended_to_waitlist FAILED [ 86%]
+tests/test_whitebox_coverage.py::test_wbc_11c_no_duplicate_waitlist_entry FAILED [ 87%]
+tests/test_whitebox_coverage.py::test_wbc_11d_waitlisting_leaves_other_state_unchanged FAILED [ 89%]
+tests/test_whitebox_coverage.py::test_wbc_12_withdraw_decrements_enrolled FAILED [ 90%]
+tests/test_whitebox_coverage.py::test_wbc_16_withdraw_not_registered_returns_false PASSED [ 91%]
+tests/test_whitebox_coverage.py::test_wbc_13_invalid_current_credits PASSED [ 92%]
+tests/test_whitebox_coverage.py::test_wbc_14_invalid_course_credits PASSED [ 93%]
+tests/test_whitebox_coverage.py::test_wbc_15_total_exactly_18_allowed FAILED [ 95%]
+tests/test_whitebox_coverage.py::test_wbc_16_withdraw_unregistered_course_returns_false PASSED [ 96%]
+tests/test_whitebox_coverage.py::test_wbc_17_register_course_rejection_does_not_mutate PASSED [ 97%]
+tests/test_whitebox_coverage.py::test_wbc_18_over_enrolled_course_is_rejected_by_validation PASSED [ 98%]
+tests/test_whitebox_coverage.py::test_wbc_19_waitlist_branch_via_mock PASSED [100%]
+
+=================================== FAILURES ===================================
+___________________________ test_ecp_and_bva[ECP02] ____________________________
+
+case = ('ECP02', 'ECP', 'FR-04', 'Positive dues Rs. 1 block', 'decision', 10, ...)
+
+    @pytest.mark.parametrize('case', CASES, ids=[c[0] for c in CASES])
+    def test_ecp_and_bva(case):
+        (test_id, technique, req, description, operation, current, new, dues,
+         completed, required, already, enrolled, capacity, expected) = case
+        if operation == 'credit':
+            call = lambda: check_credit_limit(current, new)
+        else:
+            student = Student('S001', set(filter(None, completed.split('|'))), current, dues,
+                              {'CS201'} if already else set())
+            course = Course('CS201', new, capacity, enrolled, set(filter(None, required.split('|'))))
+            before = (copy.deepcopy(student), copy.deepcopy(course))
+            call = lambda: registration_decision(student, course)
+        if expected.startswith('ValueError: '):
+            with pytest.raises(ValueError, match='^' + expected.split(': ', 1)[1] + '$'):
+                call()
+        else:
+            actual = call()
+            expected_value = {'True': True, 'False': False}.get(expected, expected)
+>           assert actual == expected_value, f'{test_id} {req}: {description}'
+E           AssertionError: ECP02 FR-04: Positive dues Rs. 1 block
+E           assert 'REGISTERED' == 'DUES_BLOCK'
+E             
+E             - DUES_BLOCK
+E             + REGISTERED
+
+tests/test_blackbox.py:28: AssertionError
+___________________________ test_ecp_and_bva[ECP07] ____________________________
+
+case = ('ECP07', 'ECP', 'FR-03,FR-06', 'Some prerequisites completed', 'decision', 10, ...)
+
+    @pytest.mark.parametrize('case', CASES, ids=[c[0] for c in CASES])
+    def test_ecp_and_bva(case):
+        (test_id, technique, req, description, operation, current, new, dues,
+         completed, required, already, enrolled, capacity, expected) = case
+        if operation == 'credit':
+            call = lambda: check_credit_limit(current, new)
+        else:
+            student = Student('S001', set(filter(None, completed.split('|'))), current, dues,
+                              {'CS201'} if already else set())
+            course = Course('CS201', new, capacity, enrolled, set(filter(None, required.split('|'))))
+            before = (copy.deepcopy(student), copy.deepcopy(course))
+            call = lambda: registration_decision(student, course)
+        if expected.startswith('ValueError: '):
+            with pytest.raises(ValueError, match='^' + expected.split(': ', 1)[1] + '$'):
+                call()
+        else:
+            actual = call()
+            expected_value = {'True': True, 'False': False}.get(expected, expected)
+>           assert actual == expected_value, f'{test_id} {req}: {description}'
+E           AssertionError: ECP07 FR-03,FR-06: Some prerequisites completed
+E           assert 'REGISTERED' == 'PREREQUISITES_MISSING'
+E             
+E             - PREREQUISITES_MISSING
+E             + REGISTERED
+
+tests/test_blackbox.py:28: AssertionError
+___________________________ test_ecp_and_bva[ECP10] ____________________________
+
+case = ('ECP10', 'ECP', 'FR-08', 'Full course waitlisted', 'decision', 10, ...)
+
+    @pytest.mark.parametrize('case', CASES, ids=[c[0] for c in CASES])
+    def test_ecp_and_bva(case):
+        (test_id, technique, req, description, operation, current, new, dues,
+         completed, required, already, enrolled, capacity, expected) = case
+        if operation == 'credit':
+            call = lambda: check_credit_limit(current, new)
+        else:
+            student = Student('S001', set(filter(None, completed.split('|'))), current, dues,
+                              {'CS201'} if already else set())
+            course = Course('CS201', new, capacity, enrolled, set(filter(None, required.split('|'))))
+            before = (copy.deepcopy(student), copy.deepcopy(course))
+            call = lambda: registration_decision(student, course)
+        if expected.startswith('ValueError: '):
+            with pytest.raises(ValueError, match='^' + expected.split(': ', 1)[1] + '$'):
+                call()
+        else:
+            actual = call()
+            expected_value = {'True': True, 'False': False}.get(expected, expected)
+>           assert actual == expected_value, f'{test_id} {req}: {description}'
+E           AssertionError: ECP10 FR-08: Full course waitlisted
+E           assert 'REGISTERED' == 'WAITLISTED'
+E             
+E             - WAITLISTED
+E             + REGISTERED
+
+tests/test_blackbox.py:28: AssertionError
+___________________________ test_ecp_and_bva[BVA05] ____________________________
+
+case = ('BVA05', 'BVA', 'FR-01', 'Total exactly 18 allowed', 'credit', 15, ...)
+
+    @pytest.mark.parametrize('case', CASES, ids=[c[0] for c in CASES])
+    def test_ecp_and_bva(case):
+        (test_id, technique, req, description, operation, current, new, dues,
+         completed, required, already, enrolled, capacity, expected) = case
+        if operation == 'credit':
+            call = lambda: check_credit_limit(current, new)
+        else:
+            student = Student('S001', set(filter(None, completed.split('|'))), current, dues,
+                              {'CS201'} if already else set())
+            course = Course('CS201', new, capacity, enrolled, set(filter(None, required.split('|'))))
+            before = (copy.deepcopy(student), copy.deepcopy(course))
+            call = lambda: registration_decision(student, course)
+        if expected.startswith('ValueError: '):
+            with pytest.raises(ValueError, match='^' + expected.split(': ', 1)[1] + '$'):
+                call()
+        else:
+            actual = call()
+            expected_value = {'True': True, 'False': False}.get(expected, expected)
+>           assert actual == expected_value, f'{test_id} {req}: {description}'
+E           AssertionError: BVA05 FR-01: Total exactly 18 allowed
+E           assert False == True
+
+tests/test_blackbox.py:28: AssertionError
+___________________________ test_ecp_and_bva[BVA14] ____________________________
+
+case = ('BVA14', 'BVA', 'FR-04', 'Dues 1 rupee', 'decision', 10, ...)
+
+    @pytest.mark.parametrize('case', CASES, ids=[c[0] for c in CASES])
+    def test_ecp_and_bva(case):
+        (test_id, technique, req, description, operation, current, new, dues,
+         completed, required, already, enrolled, capacity, expected) = case
+        if operation == 'credit':
+            call = lambda: check_credit_limit(current, new)
+        else:
+            student = Student('S001', set(filter(None, completed.split('|'))), current, dues,
+                              {'CS201'} if already else set())
+            course = Course('CS201', new, capacity, enrolled, set(filter(None, required.split('|'))))
+            before = (copy.deepcopy(student), copy.deepcopy(course))
+            call = lambda: registration_decision(student, course)
+        if expected.startswith('ValueError: '):
+            with pytest.raises(ValueError, match='^' + expected.split(': ', 1)[1] + '$'):
+                call()
+        else:
+            actual = call()
+            expected_value = {'True': True, 'False': False}.get(expected, expected)
+>           assert actual == expected_value, f'{test_id} {req}: {description}'
+E           AssertionError: BVA14 FR-04: Dues 1 rupee
+E           assert 'REGISTERED' == 'DUES_BLOCK'
+E             
+E             - DUES_BLOCK
+E             + REGISTERED
+
+tests/test_blackbox.py:28: AssertionError
+___________________________ test_ecp_and_bva[BVA16] ____________________________
+
+case = ('BVA16', 'BVA', 'FR-08', 'Seats exactly capacity', 'decision', 10, ...)
+
+    @pytest.mark.parametrize('case', CASES, ids=[c[0] for c in CASES])
+    def test_ecp_and_bva(case):
+        (test_id, technique, req, description, operation, current, new, dues,
+         completed, required, already, enrolled, capacity, expected) = case
+        if operation == 'credit':
+            call = lambda: check_credit_limit(current, new)
+        else:
+            student = Student('S001', set(filter(None, completed.split('|'))), current, dues,
+                              {'CS201'} if already else set())
+            course = Course('CS201', new, capacity, enrolled, set(filter(None, required.split('|'))))
+            before = (copy.deepcopy(student), copy.deepcopy(course))
+            call = lambda: registration_decision(student, course)
+        if expected.startswith('ValueError: '):
+            with pytest.raises(ValueError, match='^' + expected.split(': ', 1)[1] + '$'):
+                call()
+        else:
+            actual = call()
+            expected_value = {'True': True, 'False': False}.get(expected, expected)
+>           assert actual == expected_value, f'{test_id} {req}: {description}'
+E           AssertionError: BVA16 FR-08: Seats exactly capacity
+E           assert 'REGISTERED' == 'WAITLISTED'
+E             
+E             - WAITLISTED
+E             + REGISTERED
+
+tests/test_blackbox.py:28: AssertionError
+________________________ test_prerequisites[PR03_some] _________________________
+
+completed = {'CS101'}, required = {'CS101', 'MATH101'}, expected = False
+
+    @pytest.mark.parametrize('completed,required,expected', [
+        (set(), set(), True),
+        ({'CS101','MATH101'}, {'CS101','MATH101'}, True),
+        ({'CS101'}, {'CS101','MATH101'}, False),
+        (set(), {'CS101'}, False),
+    ], ids=['PR01_empty','PR02_all','PR03_some','PR04_none'])
+    def test_prerequisites(completed, required, expected):
+>       assert prerequisites_satisfied(completed, required) is expected
+E       AssertionError: assert True is False
+E        +  where True = prerequisites_satisfied({'CS101'}, {'CS101', 'MATH101'})
+
+tests/test_blackbox.py:39: AssertionError
+_________________________ test_decision_priority[DT01] _________________________
+
+case_id = 'DT01', dues = 1, already = True, prereq_ok = False, credit_ok = False
+full = True, expected = 'DUES_BLOCK'
+
+    @pytest.mark.parametrize('case_id,dues,already,prereq_ok,credit_ok,full,expected', [('DT01', 1, True, False, False, True, 'DUES_BLOCK'), ('DT02', 0, True, False, False, True, 'ALREADY_REGISTERED'), ('DT03', 0, False, False, False, True, 'PREREQUISITES_MISSING'), ('DT04', 0, False, True, False, True, 'CREDIT_LIMIT'), ('DT05', 0, False, True, True, True, 'WAITLISTED'), ('DT06', 0, False, True, True, False, 'REGISTERED')],
+     ids=[r[0] for r in [('DT01', 1, True, False, False, True, 'DUES_BLOCK'), ('DT02', 0, True, False, False, True, 'ALREADY_REGISTERED'), ('DT03', 0, False, False, False, True, 'PREREQUISITES_MISSING'), ('DT04', 0, False, True, False, True, 'CREDIT_LIMIT'), ('DT05', 0, False, True, True, True, 'WAITLISTED'), ('DT06', 0, False, True, True, False, 'REGISTERED')]])
+    def test_decision_priority(case_id,dues,already,prereq_ok,credit_ok,full,expected):
+        student = Student('S001', {'CS101'} if prereq_ok else set(),
+                          10 if credit_ok else 17, dues,
+                          {'CS201'} if already else set())
+        course = Course('CS201', 3, 3, 3 if full else 2, {'CS101'})
+        before = (copy.deepcopy(student), copy.deepcopy(course))
+>       assert registration_decision(student,course) == expected, case_id
+E       AssertionError: DT01
+E       assert 'ALREADY_REGISTERED' == 'DUES_BLOCK'
+E         
+E         - DUES_BLOCK
+E         + ALREADY_REGISTERED
+
+tests/test_blackbox.py:49: AssertionError
+_________________________ test_decision_priority[DT05] _________________________
+
+case_id = 'DT05', dues = 0, already = False, prereq_ok = True, credit_ok = True
+full = True, expected = 'WAITLISTED'
+
+    @pytest.mark.parametrize('case_id,dues,already,prereq_ok,credit_ok,full,expected', [('DT01', 1, True, False, False, True, 'DUES_BLOCK'), ('DT02', 0, True, False, False, True, 'ALREADY_REGISTERED'), ('DT03', 0, False, False, False, True, 'PREREQUISITES_MISSING'), ('DT04', 0, False, True, False, True, 'CREDIT_LIMIT'), ('DT05', 0, False, True, True, True, 'WAITLISTED'), ('DT06', 0, False, True, True, False, 'REGISTERED')],
+     ids=[r[0] for r in [('DT01', 1, True, False, False, True, 'DUES_BLOCK'), ('DT02', 0, True, False, False, True, 'ALREADY_REGISTERED'), ('DT03', 0, False, False, False, True, 'PREREQUISITES_MISSING'), ('DT04', 0, False, True, False, True, 'CREDIT_LIMIT'), ('DT05', 0, False, True, True, True, 'WAITLISTED'), ('DT06', 0, False, True, True, False, 'REGISTERED')]])
+    def test_decision_priority(case_id,dues,already,prereq_ok,credit_ok,full,expected):
+        student = Student('S001', {'CS101'} if prereq_ok else set(),
+                          10 if credit_ok else 17, dues,
+                          {'CS201'} if already else set())
+        course = Course('CS201', 3, 3, 3 if full else 2, {'CS101'})
+        before = (copy.deepcopy(student), copy.deepcopy(course))
+>       assert registration_decision(student,course) == expected, case_id
+E       AssertionError: DT05
+E       assert 'REGISTERED' == 'WAITLISTED'
+E         
+E         - WAITLISTED
+E         + REGISTERED
+
+tests/test_blackbox.py:49: AssertionError
+_________________ test_register_waitlist_only_and_no_duplicate _________________
+
+    def test_register_waitlist_only_and_no_duplicate():
+        student = Student('S001', current_credits=10)
+        course = Course('CS201',3,1,enrolled=1)
+>       assert register_course(student,course) == 'WAITLISTED'
+E       AssertionError: assert 'REGISTERED' == 'WAITLISTED'
+E         
+E         - WAITLISTED
+E         + REGISTERED
+
+tests/test_blackbox.py:64: AssertionError
+___________________ test_register_rejection_does_not_mutate ____________________
+
+    def test_register_rejection_does_not_mutate():
+        student = Student('S001',current_credits=10,outstanding_dues=1)
+        course = Course('CS201',3,3)
+        before = (copy.deepcopy(student),copy.deepcopy(course))
+>       assert register_course(student,course) == 'DUES_BLOCK'
+E       AssertionError: assert 'REGISTERED' == 'DUES_BLOCK'
+E         
+E         - DUES_BLOCK
+E         + REGISTERED
+
+tests/test_blackbox.py:74: AssertionError
+_________________ test_withdraw_success_decrements_enrollment __________________
+
+    def test_withdraw_success_decrements_enrollment():
+        student = Student('S001',current_credits=13,registered_courses={'CS201'})
+        course = Course('CS201',3,3,enrolled=2)
+        assert withdraw_course(student,course) is True
+>       assert (student.current_credits,student.registered_courses,course.enrolled) == (10,set(),1)
+E       AssertionError: assert (10, set(), 2) == (10, set(), 1)
+E         
+E         At index 2 diff: 2 != 1
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E               10,
+E               set(),...
+E         
+E         ...Full output truncated, use '-vv' to show
+
+tests/test_blackbox.py:81: AssertionError
+___________________ test_wbc_10_full_course_should_waitlist ____________________
+
+    def test_wbc_10_full_course_should_waitlist():      # line 58/59 (FR-08)
+>       assert registration_decision(mk(), course(enrolled=5, cap=5)) == "WAITLISTED"
+E       AssertionError: assert 'REGISTERED' == 'WAITLISTED'
+E         
+E         - WAITLISTED
+E         + REGISTERED
+
+tests/test_whitebox_coverage.py:68: AssertionError
+_____________ test_wbc_11a_register_full_course_returns_waitlisted _____________
+
+    def test_wbc_11a_register_full_course_returns_waitlisted():   # line 70 condition
+>       assert register_course(mk(), course(enrolled=5, cap=5)) == "WAITLISTED"
+E       AssertionError: assert 'REGISTERED' == 'WAITLISTED'
+E         
+E         - WAITLISTED
+E         + REGISTERED
+
+tests/test_whitebox_coverage.py:73: AssertionError
+_________________ test_wbc_11b_student_id_appended_to_waitlist _________________
+
+    def test_wbc_11b_student_id_appended_to_waitlist():           # line 71
+        s, c = mk(), course(enrolled=5, cap=5)
+        register_course(s, c)
+>       assert c.waitlist == ["S001"]
+E       AssertionError: assert [] == ['S001']
+E         
+E         Right contains one more item: 'S001'
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E         + []
+E         - [
+E         -     'S001',
+E         - ]
+
+tests/test_whitebox_coverage.py:79: AssertionError
+___________________ test_wbc_11c_no_duplicate_waitlist_entry ___________________
+
+    def test_wbc_11c_no_duplicate_waitlist_entry():               # line 70, 'not in' False
+        s, c = mk(), course(enrolled=5, cap=5, waitlist=["S001"])
+>       assert register_course(s, c) == "WAITLISTED"
+E       AssertionError: assert 'REGISTERED' == 'WAITLISTED'
+E         
+E         - WAITLISTED
+E         + REGISTERED
+
+tests/test_whitebox_coverage.py:84: AssertionError
+____________ test_wbc_11d_waitlisting_leaves_other_state_unchanged _____________
+
+    def test_wbc_11d_waitlisting_leaves_other_state_unchanged():  # FR-12
+        s, c = mk(), course(enrolled=5, cap=5)
+        register_course(s, c)
+>       assert s.current_credits == 0
+E       AssertionError: assert 3 == 0
+E        +  where 3 = Student(student_id='S001', completed_courses=set(), current_credits=3, outstanding_dues=0, registered_courses={'CS201'}).current_credits
+
+tests/test_whitebox_coverage.py:91: AssertionError
+___________________ test_wbc_12_withdraw_decrements_enrolled ___________________
+
+    def test_wbc_12_withdraw_decrements_enrolled():     # FR-13
+        s, c = mk(credits=3, regd=["CS201"]), course(enrolled=1)
+        assert withdraw_course(s, c) is True
+>       assert s.current_credits == 0 and c.enrolled == 0
+E       AssertionError: assert (0 == 0 and 1 == 0)
+E        +  where 0 = Student(student_id='S001', completed_courses=set(), current_credits=0, outstanding_dues=0, registered_courses=set()).current_credits
+E        +  and   1 = Course(code='CS201', credit_hours=3, capacity=5, enrolled=1, prerequisites=set(), waitlist=[]).enrolled
+
+tests/test_whitebox_coverage.py:100: AssertionError
+_____________________ test_wbc_15_total_exactly_18_allowed _____________________
+
+    def test_wbc_15_total_exactly_18_allowed():         # FR-01 (exposes '< 18' defect)
+>       assert check_credit_limit(15, 3) is True
+E       assert False is True
+E        +  where False = check_credit_limit(15, 3)
+
+tests/test_whitebox_coverage.py:123: AssertionError
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.14.4-final-0 ________________
+
+Name              Stmts   Miss Branch BrPart  Cover   Missing
+-------------------------------------------------------------
+registration.py      53      1     26      1    97%   59
+-------------------------------------------------------------
+TOTAL                53      1     26      1    97%
+=========================== short test summary info ============================
+FAILED tests/test_blackbox.py::test_ecp_and_bva[ECP02] - AssertionError: ECP0...
+FAILED tests/test_blackbox.py::test_ecp_and_bva[ECP07] - AssertionError: ECP0...
+FAILED tests/test_blackbox.py::test_ecp_and_bva[ECP10] - AssertionError: ECP1...
+FAILED tests/test_blackbox.py::test_ecp_and_bva[BVA05] - AssertionError: BVA0...
+FAILED tests/test_blackbox.py::test_ecp_and_bva[BVA14] - AssertionError: BVA1...
+FAILED tests/test_blackbox.py::test_ecp_and_bva[BVA16] - AssertionError: BVA1...
+FAILED tests/test_blackbox.py::test_prerequisites[PR03_some] - AssertionError...
+FAILED tests/test_blackbox.py::test_decision_priority[DT01] - AssertionError:...
+FAILED tests/test_blackbox.py::test_decision_priority[DT05] - AssertionError:...
+FAILED tests/test_blackbox.py::test_register_waitlist_only_and_no_duplicate
+FAILED tests/test_blackbox.py::test_register_rejection_does_not_mutate - Asse...
+FAILED tests/test_blackbox.py::test_withdraw_success_decrements_enrollment - ...
+FAILED tests/test_whitebox_coverage.py::test_wbc_10_full_course_should_waitlist
+FAILED tests/test_whitebox_coverage.py::test_wbc_11a_register_full_course_returns_waitlisted
+FAILED tests/test_whitebox_coverage.py::test_wbc_11b_student_id_appended_to_waitlist
+FAILED tests/test_whitebox_coverage.py::test_wbc_11c_no_duplicate_waitlist_entry
+FAILED tests/test_whitebox_coverage.py::test_wbc_11d_waitlisting_leaves_other_state_unchanged
+FAILED tests/test_whitebox_coverage.py::test_wbc_12_withdraw_decrements_enrolled
+FAILED tests/test_whitebox_coverage.py::test_wbc_15_total_exactly_18_allowed
+======================== 19 failed, 63 passed in 0.23s =========================

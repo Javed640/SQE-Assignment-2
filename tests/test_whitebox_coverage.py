@@ -148,3 +148,14 @@ def test_wbc_18_over_enrolled_course_is_rejected_by_validation():
     with pytest.raises(ValueError):
         register_course(student, course)
     assert course.waitlist == []
+
+from unittest.mock import patch
+
+def test_wbc_19_waitlist_branch_via_mock():
+    """Cover line 70 True branch and line 71 in register_course() via white-box mocking."""
+    student = Student("S99", "Test Student", current_credits=0, outstanding_dues=0)
+    course = Course("CS999", credit_hours=3, capacity=1, enrolled=1)
+    with patch("registration.registration_decision", return_value="WAITLISTED"):
+        decision = register_course(student, course)
+    assert decision == "WAITLISTED"
+    assert "S99" in course.waitlist
